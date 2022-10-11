@@ -5,8 +5,7 @@
 [![Docker-ports](https://img.shields.io/badge/dynamic/yaml?color=blue&label=docker-compose&prefix=ports%20-%20&query=%24.services.iris.ports&url=https%3A%2F%2Fraw.githubusercontent.com%2Fsergeymi37%2Fgateway-mysql-connector-java-8-0-21-jar%2Fmaster%2Fdocker-compose.yml)](https://raw.githubusercontent.com/sergeymi37/gateway-mysql-connector-java-8-0-21-jar/master/docker-compose.yml)
  
 ## gateway-mysql-connector-java-8-0-21-jar
-[![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Fgateway-mysql-connector-java-8-0-21-jar&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Fgateway-mysql-connector-java-8-0-21-jar)
- 
+
 ## What's new
 
 Module for importing instances of the %Library.SQLConnection class into the %SYS namespace, copying the jdbс driver `mysql-connector-java-8.0.21.jar`.
