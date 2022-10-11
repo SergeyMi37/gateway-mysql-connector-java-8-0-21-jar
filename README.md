@@ -58,4 +58,14 @@ You can import a class %Library.SQLConnection instance in the %SYS namespace wit
 
 ```
 %SYS>do ##class(appmsw.gateway.jdbc).ImportSQLConnection()
+
+Change the value of a field 'Name' <Default_Name_SQLConnection> test2
+Change the value of a field 'URL' <jdbc:mysql://ip address:port/databaseName?serverTimezone=UTC>
+Change the value of a field 'Usr' <Default_DB_UserName>
+Change the value of a field 'classpath' </opt/oracle/mysql-connector-java-8.0.21.jar> /opt/irisbuild/mysql-connector-java-8.0.21.jar
+Copied from /usr/irissys/lib/jdbc/mysql-connector-java-8.0.21.jar to /opt/irisbuild/mysql-connector-java-8.0.21.jar
+Change the value of a field 'driver' <>
+The password will need to be entered in the portal interface
+
+saved
 ```
