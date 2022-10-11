@@ -6,6 +6,7 @@ Class appmsw.gateway.jdbc [ Abstract ]
 ClassMethod ImportSQLConnection(mode = "") As %Status
 {
 	set st=$$$OK
+	KILL %appTmp,%appClass,%appClassProp,%appClassPropVal,%appClassPropType,%appClassSave,%appClassPropSet
 	if $namespace'="%SYS" set msg="This project needs to be installed in the %SYS namespace" write !,msg quit $$$ERROR($$$GeneralError,msg)
 	set sourcedir=##class(%File).NormalizeDirectory("lib\jdbc\", ##class(%File).GetDirectory($zu(86)))
 	set jsonfile=sourcedir_"gateways.json"
@@ -20,8 +21,9 @@ ClassMethod ImportView(%appTmp) As %Status
 {
 	write:$g(%appClassSave) !
 	write !,$g(%appClass)_". "_%appClassProp_" = "_%appClassPropVal_" type:"_%appClassPropType ;_" "_$g(%appClassSave)_" "_$g(%appTmp)_" "_$g(%appClassPropSet)
-	set %appClassPropSet=0 ;don't assign a property with that name
-	set %appClassSave=0 ;don't save an instance of the class
+	set %appClassPropSet=0 ; don't assign a property with that name
+	set %appClassSave=0  ; don't save an instance of the class
+	zt "show_must_go_on" ; redefine the exception <INTERRUPT>
 	quit $$$OK
 }
 
@@ -90,7 +92,7 @@ ClassMethod ImportSelect(filename = "", ByRef json, exec = "") As %Status
 						xecute "do "_exec ;
 					}
 					catch ex {
-						write ex.AsStatus()
+						write:$ze'["<Zshow" ex.AsStatus()
 					}
 	      		}
 	      		if ("@"_$ze)["@<INTERRUPT>" set ImpWhile=0 quit ; $$$ThrowOnError($$$ERROR($$$GeneralError,$ze))
