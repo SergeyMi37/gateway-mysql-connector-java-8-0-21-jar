@@ -2,25 +2,15 @@
 Class appmsw.gateway.jdbc [ Abstract ]
 {
 
-/// write ##class(appmsw.gateway.jdbc).ImportSQLConnection("/tmp/zpm-gateway/")
-ClassMethod ImportSQLConnection(zpmname = "", sourcedir = "", ByRef json) As %Status
+/// write ##class(appmsw.gateway.jdbc).ImportSQLConnection("view")
+ClassMethod ImportSQLConnection(mode = "") As %Status
 {
 	set st=$$$OK
 	if $namespace'="%SYS" set msg="This project needs to be installed in the %SYS namespace" write !,msg quit $$$ERROR($$$GeneralError,msg)
-	if sourcedir="" { 
-		set sourcedir=##class(%File).NormalizeDirectory("lib\jdbc\", ##class(%File).GetDirectory($zu(86)))
-		//found directory for zpmname
-		;if zpmname="" set zpmname = "appmsw-gateway-sql"
-		;find a path named zpm 
-		;Set tTargetDirectory = ##class(%File).ManagerDirectory()_".modules\"_$Namespace_"\"_zpmname_"\1.0.0\"
-		;Set tTargetDirectory = ##class(%File).NormalizeDirectory(tTargetDirectory)
-		;if '##class(%File).DirectoryExists(tTargetDirectory) set msg="The directory '"_tTargetDirectory_"' does not exist. Specify the full path of the projectas as the second parameter. %SYS>do ##class(appmsw.gateway.jdbc).ImportSQLConnection(,""path of the project"")" write !,msg quit $$$ERROR($$$GeneralError,msg)
-	}
-	if sourcedir="" set msg="installation path not found" write !,msg quit $$$ERROR($$$GeneralError,msg)
-	
+	set sourcedir=##class(%File).NormalizeDirectory("lib\jdbc\", ##class(%File).GetDirectory($zu(86)))
 	set jsonfile=sourcedir_"gateways.json"
-	set exec="##class(appmsw.gateway.jdbc).ImportChange($lb("""_sourcedir_"""))"
-	;set exec="##class(appmsw.gateway.jdbc).ImportView()"
+	if mode="view" set exec="##class(appmsw.gateway.jdbc).ImportView()"
+	else  set exec="##class(appmsw.gateway.jdbc).ImportChange($lb("""_sourcedir_"""))"
 	set st=..ImportSelect(jsonfile,.json,exec)
 	quit st
 }
@@ -52,7 +42,7 @@ ClassMethod CopyJar() As %Status
 	set pathfile=%appClassPropVal
 	set slash=$s($zversion(1)=3:"/",1:"\")
 	if ##class(%Library.File).Exists(pathfile) write !,pathfile_" already exists" quit $$$OK
-	set filesjar=$lg(%appTmp,1)_"jdbc"_slash_$p(pathfile,slash,*)
+	set filesjar=$lg(%appTmp,1)_$p(pathfile,slash,*)
 	write !,"Copied from "_filesjar_" to "_pathfile
 	if ##class(%Library.File).DirectoryExists(pathfile) {
 		Set st = ##class(%ZPM.PackageManager.Developer.File).CopyFile(filesjar,pathfile)
